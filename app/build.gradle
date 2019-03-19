@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+
+buildscript {
+    ext.buildConfig = [
+            'compileSdk': 28,
+            'minSdk'    : 21,
+            'targetSdk' : 28
+    ]
+
+    ext.versions = [
+            'supportLibrary': '27.1.0',
+            'junit': '4.12',
+            'moshi': '1.8.0',
+            'fuel': '2.0.1',
+            'material': '1.0.0-rc01'
+    ]
+}
+
+android {
+    compileSdkVersion buildConfig.compileSdk
+    defaultConfig {
+        applicationId "com.example.iscarrot.smalltalkapp"
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            buildConfigField 'String', "ApiKey", SmallTalkApp_ApiKey
+            resValue 'string', "api_key", SmallTalkApp_ApiKey
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "ApiKey", SmallTalkApp_ApiKey
+            resValue 'string', "api_key", SmallTalkApp_ApiKey
+
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//    implementation "com.android.support:appcompat-v7:${versions.supportLibrary}"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation "junit:junit:${versions.junit}"
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation "com.squareup.moshi:moshi-kotlin:${versions.moshi}"
+    implementation "com.github.kittinunf.fuel:fuel:${versions.fuel}"
+    implementation "com.github.kittinunf.fuel:fuel-android:${versions.fuel}"
+
+    implementation "androidx.appcompat:appcompat:${versions.material}"
+    implementation "com.google.android.material:material:${versions.material}"
+}
